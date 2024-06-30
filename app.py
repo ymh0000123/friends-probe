@@ -60,7 +60,6 @@ def check_blog_titles():
     results = []  # 创建一个空列表来存储检查结果
     results.append(f"---")
     results.append(f"友链检查")
-    results.append(f"---")
     
     # 发送请求获取朋友列表
     response = requests.get("https://blog-api.xiao-feishu.top/friends/friends.json")
@@ -85,29 +84,33 @@ def check_blog_titles():
                 # 检查<title>是否包含Name
                 if name in title:
                     results.append(f"---")
-                    results.append(f"包含: {blog_url} 的标题包含名字 '{name}'")
+                    results.append(f"状态：正常 {blog_url} '{name}'")
                 else:
                     results.append(f"---")
-                    results.append(f"不包含: {blog_url} 的标题是 '{title}'，但不包含 '{name}'")
+                    results.append(f"状态：异常 {blog_url} 原因：的标题是 '{title}'，但不包含 '{name}'")
                     
                     # 不立即发送钉钉消息，将结果存入列表中
                     
             else:
-                results.append(f"获取 {blog_url}/index.html 失败，状态码：{blog_response.status_code}")
+                results.append(f"状态：异常 原因：获取 {blog_url}/index.html 失败，状态码：{blog_response.status_code}")
                 
                 # 不立即发送钉钉消息，将结果存入列表中
     
     else:
-        results.append("请求失败，状态码：" + str(response.status_code))
+        results.append("请求失败，状态码：" + str(response.status_code)+"原因：无法获取列表")
     
-    # 检查是否所有博客标题都正常，如果是则发送一条全部正常的钉钉消息
-    all_clear = all("包含" in result for result in results)
+    all_clear = all("正常" in result for result in results)
     
+    # 如果所有检查都正常，则添加一条确认消息
     if all_clear:
+        results.append(f"---")
         results.append(f"博客友链检查正常")
+        results.append(f"---")
         send_dingtalk_message("\n".join(results))
     else:
-        # 在所有博客检查完毕后，汇总结果并发送一条钉钉消息
+        results.append(f"---")
+        results.append(f"博客友链检查异常")
+        results.append(f"---")
         send_dingtalk_message("\n".join(results))
 
 # 调用函数检查博客标题
