@@ -1,0 +1,25 @@
+name: 友链检查
+on:
+    schedule:
+        - cron: '0 0 15,30 * *'
+    workflow_dispatch:
+env:
+    DINGTALK_ACCESS_TOKEN=${{ secrets.DINGTALK_ACCESS_TOKEN }}
+    DINGTALK_SECRET=${{ secrets.DINGTALK_SECRET }}
+jobs:
+    check:
+        runs-on: ubuntu-latest
+        steps:
+            - name: 准备仓库文件
+              uses: actions/checkout@v2
+
+            - name: 准备Python
+              uses: actions/setup-python@main
+              with:
+                python-version: '3.8'
+            - name: 安装依赖
+              run: |
+                pip install -r requirements.txt
+            - name: 运行检查
+              run: |
+                python app.py
