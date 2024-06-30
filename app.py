@@ -58,6 +58,9 @@ def check_blog_titles():
     检查每个朋友的博客标题是否包含朋友的名字
     """
     results = []  # 创建一个空列表来存储检查结果
+    results.append(f"---")
+    results.append(f"友链检查")
+    results.append(f"---")
     
     # 发送请求获取朋友列表
     response = requests.get("https://blog-api.xiao-feishu.top/friends/friends.json")
@@ -81,8 +84,10 @@ def check_blog_titles():
                 
                 # 检查<title>是否包含Name
                 if name in title:
+                    results.append(f"---")
                     results.append(f"包含: {blog_url} 的标题包含名字 '{name}'")
                 else:
+                    results.append(f"---")
                     results.append(f"不包含: {blog_url} 的标题是 '{title}'，但不包含 '{name}'")
                     
                     # 不立即发送钉钉消息，将结果存入列表中
@@ -99,7 +104,8 @@ def check_blog_titles():
     all_clear = all("包含" in result for result in results)
     
     if all_clear:
-        send_dingtalk_message("所有博客标题检查正常")
+        results.append(f"博客友链检查正常")
+        send_dingtalk_message("\n".join(results))
     else:
         # 在所有博客检查完毕后，汇总结果并发送一条钉钉消息
         send_dingtalk_message("\n".join(results))
