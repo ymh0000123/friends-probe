@@ -20,6 +20,9 @@ jobs:
             - name: 安装依赖
               run: |
                 pip install -r requirements.txt
+            - name: set env
+              run: |
+                  echo "BASE_PATH=$(pwd)" >> $GITHUB_ENV && echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
             - name: 运行检查
               run: |
                 python app.py
