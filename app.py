@@ -99,19 +99,20 @@ def check_blog_titles():
     else:
         results.append("请求失败，状态码：" + str(response.status_code)+"原因：无法获取列表")
     
-    all_clear = all("正常" in result for result in results)
-    print(all_clear)
+    all_clear = any("异常" in item for item in results)
     
     # 如果所有检查都正常，则添加一条确认消息
     if all_clear:
         results.append(f"------")
-        results.append(f"博客友链检查正常")
+        results.append(f"博客友链检查异常")
         results.append(f"------")
+        print("\n".join(results))
         send_dingtalk_message("\n".join(results))
     else:
         results.append(f"------")
-        results.append(f"博客友链检查异常")
+        results.append(f"博客友链检查正常")
         results.append(f"------")
+        print("\n".join(results))
         send_dingtalk_message("\n".join(results))
 
 # 调用函数检查博客标题
