@@ -58,7 +58,7 @@ def check_blog_titles():
     检查每个朋友的博客标题是否包含朋友的名字
     """
     results = []  # 创建一个空列表来存储检查结果
-    results.append(f"---")
+    results.append(f"------")
     results.append(f"友链检查")
     
     # 发送请求获取朋友列表
@@ -83,10 +83,10 @@ def check_blog_titles():
                 
                 # 检查<title>是否包含Name
                 if name in title:
-                    results.append(f"---")
+                    results.append(f"------")
                     results.append(f"状态：正常 {blog_url} '{name}'")
                 else:
-                    results.append(f"---")
+                    results.append(f"------")
                     results.append(f"状态：异常 {blog_url} 原因：的标题是 '{title}'，但不包含 '{name}'")
                     
                     # 不立即发送钉钉消息，将结果存入列表中
@@ -100,17 +100,18 @@ def check_blog_titles():
         results.append("请求失败，状态码：" + str(response.status_code)+"原因：无法获取列表")
     
     all_clear = all("正常" in result for result in results)
+    print(all_clear)
     
     # 如果所有检查都正常，则添加一条确认消息
     if all_clear:
-        results.append(f"---")
+        results.append(f"------")
         results.append(f"博客友链检查正常")
-        results.append(f"---")
+        results.append(f"------")
         send_dingtalk_message("\n".join(results))
     else:
-        results.append(f"---")
+        results.append(f"------")
         results.append(f"博客友链检查异常")
-        results.append(f"---")
+        results.append(f"------")
         send_dingtalk_message("\n".join(results))
 
 # 调用函数检查博客标题
