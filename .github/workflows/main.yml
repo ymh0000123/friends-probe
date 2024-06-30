@@ -4,8 +4,9 @@ on:
         - cron: '0 0 15,30 * *'
     workflow_dispatch:
 env:
-    DINGTALK_ACCESS_TOKEN=${{ secrets.DINGTALK_ACCESS_TOKEN }}
-    DINGTALK_SECRET=${{ secrets.DINGTALK_SECRET }}
+  DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+  DINGTALK_SECRET: ${{ secrets.DINGTALK_SECRET }}
+
 jobs:
     check:
         runs-on: ubuntu-latest
