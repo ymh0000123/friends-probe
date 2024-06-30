@@ -54,6 +54,7 @@ def send_dingtalk_message(content):
     else:
         print(f"钉钉消息发送失败，状态码：{response.status_code}")
 def check_blog_titles():
+    serialNumber =0
     """
     检查每个朋友的博客标题是否包含朋友的名字
     """
@@ -118,5 +119,4 @@ def check_blog_titles():
         send_dingtalk_message("\n".join(results))
 
 # 调用函数检查博客标题
-serialNumber =0
 check_blog_titles()
