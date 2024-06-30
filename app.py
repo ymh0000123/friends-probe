@@ -81,18 +81,20 @@ def check_blog_titles():
                 # 获取<title>标签内容
                 title = soup.title.string.strip() if soup.title else '未找到标题'
                 
+                serialNumber +=1
+                
                 # 检查<title>是否包含Name
                 if name in title:
                     results.append(f"------")
-                    results.append(f"状态：正常 {blog_url} '{name}'")
+                    results.append(f"{serialNumber}. 状态：正常 {blog_url} '{name}'")
                 else:
                     results.append(f"------")
-                    results.append(f"状态：异常 {blog_url} 原因：的标题是 '{title}'，但不包含 '{name}'")
+                    results.append(f"{serialNumber}. 状态：异常 {blog_url} 原因：的标题是 '{title}'，但不包含 '{name}'")
                     
                     # 不立即发送钉钉消息，将结果存入列表中
                     
             else:
-                results.append(f"状态：异常 原因：获取 {blog_url}/index.html 失败，状态码：{blog_response.status_code}")
+                results.append(f"{serialNumber}. 状态：异常 原因：获取 {blog_url}/index.html 失败，状态码：{blog_response.status_code}")
                 
                 # 不立即发送钉钉消息，将结果存入列表中
     
@@ -116,4 +118,5 @@ def check_blog_titles():
         send_dingtalk_message("\n".join(results))
 
 # 调用函数检查博客标题
+serialNumber =0
 check_blog_titles()
