@@ -55,11 +55,13 @@ def send_dingtalk_message(content):
         print(f"钉钉消息发送失败，状态码：{response.status_code}")
 def check_blog_titles():
     serialNumber =0
+    normalQuantity=0
+    errorQuantity=0
     """
     检查每个朋友的博客标题是否包含朋友的名字
     """
     results = []  # 创建一个空列表来存储检查结果
-    results.append(f"------")
+    results.append(f"------------------------------")
     results.append(f"友链检查")
     
     # 发送请求获取朋友列表
@@ -86,16 +88,29 @@ def check_blog_titles():
                 
                 # 检查<title>是否包含Name
                 if name in title:
-                    results.append(f"------")
-                    results.append(f"{serialNumber}. 状态：正常 {blog_url} '{name}'")
+                    normalQuantity+=1
+                    results.append(f"------------------------------")
+                    results.append(f"{serialNumber}. 状态：正常'")
+                    results.append(f"   链接：{blog_url}'")
+                    results.append(f"   站点名：{name}'")
                 else:
-                    results.append(f"------")
-                    results.append(f"{serialNumber}. 状态：异常 {blog_url} 原因：的标题是 '{title}'，但不包含 '{name}'")
+                    errorQuantity+=1
+                    results.append(f"------------------------------")
+                    results.append(f"{serialNumber}. 状态：异常'")
+                    results.append(f"   链接：{blog_url}'")
+                    results.append(f"   站点名：{name}'")
+                    results.append(f"   获取的站点名：{title}'")
                     
                     # 不立即发送钉钉消息，将结果存入列表中
                     
             else:
-                results.append(f"{serialNumber}. 状态：异常 原因：获取 {blog_url}/index.html 失败，状态码：{blog_response.status_code}")
+                errorQuantity+=1
+                results.append(f"------------------------------")
+                results.append(f"{serialNumber}. 状态：异常'")
+                results.append(f"   原因：获取 {blog_url}/index.html 失败")
+                results.append(f"   状态码：{blog_response.status_code}")
+                results.append(f"   链接：{blog_url}'")
+                results.append(f"   站点名：{name}'")
                 
                 # 不立即发送钉钉消息，将结果存入列表中
     
@@ -106,15 +121,18 @@ def check_blog_titles():
     
     # 如果所有检查都正常，则添加一条确认消息
     if all_clear:
-        results.append(f"------")
+        results.append(f"------------------------------")
         results.append(f"博客友链检查异常")
-        results.append(f"------")
+        results.append(f"博客友链数量：{serialNumber}")
+        results.append(f"博客友链正常数量：{normalQuantity}")
+        results.append(f"博客友链异常数量：{normalQuantity}")
+        results.append(f"------------------------------")
         print("\n".join(results))
         send_dingtalk_message("\n".join(results))
     else:
-        results.append(f"------")
+        results.append(f"------------------------------")
         results.append(f"博客友链检查正常")
-        results.append(f"------")
+        results.append(f"------------------------------")
         print("\n".join(results))
         send_dingtalk_message("\n".join(results))
 
