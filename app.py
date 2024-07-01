@@ -90,16 +90,16 @@ def check_blog_titles():
                 if name in title:
                     normalQuantity+=1
                     results.append(f"------------------------------")
-                    results.append(f"{serialNumber}. 状态：正常'")
-                    results.append(f"   链接：{blog_url}'")
-                    results.append(f"   站点名：{name}'")
+                    results.append(f"{serialNumber}. 状态：正常")
+                    results.append(f"   链接：{blog_url}")
+                    results.append(f"   站点名：「{title}」")
                 else:
                     errorQuantity+=1
                     results.append(f"------------------------------")
-                    results.append(f"{serialNumber}. 状态：异常'")
-                    results.append(f"   链接：{blog_url}'")
-                    results.append(f"   站点名：{name}'")
-                    results.append(f"   获取的站点名：{title}'")
+                    results.append(f"{serialNumber}. 状态：异常")
+                    results.append(f"   链接：{blog_url}")
+                    results.append(f"   站点名：{name}")
+                    results.append(f"   获取的站点名：「{title}」")
                     
                     # 不立即发送钉钉消息，将结果存入列表中
                     
@@ -109,8 +109,8 @@ def check_blog_titles():
                 results.append(f"{serialNumber}. 状态：异常'")
                 results.append(f"   原因：获取 {blog_url}/index.html 失败")
                 results.append(f"   状态码：{blog_response.status_code}")
-                results.append(f"   链接：{blog_url}'")
-                results.append(f"   站点名：{name}'")
+                results.append(f"   链接：{blog_url}")
+                results.append(f"   站点名：「{title}」")
                 
                 # 不立即发送钉钉消息，将结果存入列表中
     
