@@ -91,24 +91,24 @@ def check_blog_titles():
                 if name in title:
                     normalQuantity+=1
                     results.append(f"------------------------------")
-                    results.append(f"{serialNumber}. [「{name}」]({blog_url})")
-                    results.append(f"- 状态：正常")
+                    results.append(f"{serialNumber}. [「{name}」]({blog_url})  ")
+                    results.append(f"   - 状态：正常  ")
                 else:
                     errorQuantity+=1
                     results.append(f"------------------------------")
-                    results.append(f"{serialNumber}. [「{name}」]({blog_url})")
-                    results.append(f"- 状态：异常")
-                    results.append(f"- 原因：站点名与预期不符")
+                    results.append(f"{serialNumber}. [「{name}」]({blog_url})  ")
+                    results.append(f"   - 状态：异常  ")
+                    results.append(f"   - 原因：站点名与预期不符  ")
                     
                     # 不立即发送钉钉消息，将结果存入列表中
                     
             else:
                 errorQuantity+=1
                 results.append(f"------------------------------")
-                results.append(f"{serialNumber}.「 {name}」")
-                results.append(f"- 状态：异常")
-                results.append(f"- 原因：获取 {blog_url}/index.html 失败")
-                results.append(f"- 状态码：{blog_response.status_code}")
+                results.append(f"{serialNumber}.「 {name}」  ")
+                results.append(f"   - 状态：异常  ")
+                results.append(f"   - 原因：获取 {blog_url}/index.html 失败  ")
+                results.append(f"   - 状态码：{blog_response.status_code}  ")
                 
                 # 不立即发送钉钉消息，将结果存入列表中
     
@@ -120,16 +120,16 @@ def check_blog_titles():
     # 如果所有检查都正常，则添加一条确认消息
     if all_clear:
         results.append(f"------------------------------")
-        results.append(f"博客友链检查异常")
-        results.append(f"博客友链数量：{serialNumber}")
-        results.append(f"博客友链正常数量：{normalQuantity}")
-        results.append(f"博客友链异常数量：{normalQuantity}")
+        results.append(f"**博客友链检查异常**")
+        results.append(f"博客友链数量：{serialNumber}  ")
+        results.append(f"博客友链正常数量：{normalQuantity}  ")
+        results.append(f"博客友链异常数量：{normalQuantity}  ")
         results.append(f"------------------------------")
         print("\n".join(results))
         send_dingtalk_message("\n".join(results))
     else:
         results.append(f"------------------------------")
-        results.append(f"博客友链检查正常")
+        results.append(f"**博客友链检查正常**")
         results.append(f"------------------------------")
         print("\n".join(results))
         send_dingtalk_message("\n".join(results))
