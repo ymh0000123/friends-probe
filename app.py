@@ -37,9 +37,10 @@ def send_dingtalk_message(content):
     
     # 构造请求体
     message = {
-        "msgtype": "text",
-        "text": {
-            "content": content
+        "msgtype": "markdown",
+        "markdown": {
+            "title":"友链检查",
+            "text": content
         },
         "timestamp": timestamp,
         "sign": sign
@@ -90,27 +91,24 @@ def check_blog_titles():
                 if name in title:
                     normalQuantity+=1
                     results.append(f"------------------------------")
-                    results.append(f"{serialNumber}. 状态：正常")
-                    results.append(f"   链接：{blog_url}")
-                    results.append(f"   站点名：「{title}」")
+                    results.append(f"{serialNumber}. [「{name}」]({blog_url})")
+                    results.append(f"- 状态：正常")
                 else:
                     errorQuantity+=1
                     results.append(f"------------------------------")
-                    results.append(f"{serialNumber}. 状态：异常")
-                    results.append(f"   链接：{blog_url}")
-                    results.append(f"   站点名：{name}")
-                    results.append(f"   获取的站点名：「{title}」")
+                    results.append(f"{serialNumber}. [「{name}」]({blog_url})")
+                    results.append(f"- 状态：异常")
+                    results.append(f"- 原因：站点名与预期不符")
                     
                     # 不立即发送钉钉消息，将结果存入列表中
                     
             else:
                 errorQuantity+=1
                 results.append(f"------------------------------")
-                results.append(f"{serialNumber}. 状态：异常'")
-                results.append(f"   原因：获取 {blog_url}/index.html 失败")
-                results.append(f"   状态码：{blog_response.status_code}")
-                results.append(f"   链接：{blog_url}")
-                results.append(f"   站点名：「{title}」")
+                results.append(f"{serialNumber}.「 {name}」")
+                results.append(f"- 状态：异常")
+                results.append(f"- 原因：获取 {blog_url}/index.html 失败")
+                results.append(f"- 状态码：{blog_response.status_code}")
                 
                 # 不立即发送钉钉消息，将结果存入列表中
     
